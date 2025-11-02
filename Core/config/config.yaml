@@ -1,0 +1,8 @@
+audio:
+  input_device:  6 
+  length_scale: 1
+  noise_scale: 0
+  noise_w_scale: 0
+  normalize_audio: false
+  output_device: 11
+  volume: 1

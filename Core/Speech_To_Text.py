@@ -3,7 +3,8 @@ from RealtimeSTT import AudioToTextRecorder
 def process_text(text):
     print(text)
 
+
 if __name__ == '__main__':
     print("Wait until it says 'speak now'")
-    recorder = AudioToTextRecorder()
+    recorder = AudioToTextRecorder(input_device_index=2)
     recorder.text(process_text)
