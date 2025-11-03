@@ -1,6 +1,7 @@
 # VRChat AI Bot - TTS/STT System
 
-A sophisticated AI companion bot for VRChat that provides real-time speech-to-text and text-to-speech capabilities with intelligent conversation management and memory systems.
+~~A sophisticated AI companion bot for VRChat that provides real-time speech-to-text and text-to-speech capabilities with intelligent conversation management and memory systems.~~
+yea as if, this ai readme is a bit wrong there, this is EXTREMELY EARLY IN DEVELOPMENT I DONT EVEN HAVE A GUI YET
 
 ## 🚀 Overview
 
@@ -69,10 +70,7 @@ This project creates an AI companion that can engage in natural conversations wi
    (make sure you have the audio set up correctly)
 
 2. **Start the application**:
-   ```bash
-   python Core/Main.py
-   ```
-he config file for different voice characteristics
+   Run Main.py
 
 
 ## 🔧 Configuration
