@@ -114,7 +114,6 @@ This project is actively developed with a modular architecture approach. Contrib
 
 - Enhanced error handling and recovery
 - Additional TTS voice models
-- Improved memory management algorithms
 - VRChat OSC integration features
 - Performance optimizations
 
