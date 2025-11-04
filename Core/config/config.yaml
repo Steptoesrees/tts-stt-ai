@@ -1,8 +1,10 @@
+TTS:
+  voice: Models//glados_piper_medium.onnx
 audio:
-  input_device:  6 
+  input_device: 3
   length_scale: 1
   noise_scale: 0
   noise_w_scale: 0
   normalize_audio: false
-  output_device: 11
+  output_device: 20
   volume: 1

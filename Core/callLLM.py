@@ -5,7 +5,7 @@ import os
 
 dotenv.load_dotenv()
 
-def call(chat_memory, max_tokens = 300, model = 'z-ai/glm-4.5-air:free'):
+def call(chat_memory, max_tokens = 300, model = 'meta-llama/llama-3.2-1b-instruct'):
     response = requests.post(
         url="https://openrouter.ai/api/v1/chat/completions",
         headers={
@@ -15,14 +15,16 @@ def call(chat_memory, max_tokens = 300, model = 'z-ai/glm-4.5-air:free'):
         data=json.dumps({
             "model": model, 
             "messages": chat_memory,
-            "max_tokens": max_tokens,
-            "reasoning": False
+            "max_tokens": max_tokens
         }))
     
     response = response.json()
     print(response)
     print("")
-    print(response["choices"][0]["message"]["content"])
+    try:
+        print(response["choices"][0]["message"]["content"])
+    except:
+        print(response["error"])
     print("")
     
     return response["choices"][0]["message"]["content"]

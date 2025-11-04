@@ -12,15 +12,17 @@ class main():
         self.config = config
         self.input_device = self.config.get('audio.input_device')
         self.output_device = self.config.get('audio.output_device')
-        self.text = input("enter 'yes' to type instead of talk").lower()
-
-
 
         self.memory = short_memory()
         self.messages = self.memory.memory
-        self.GLAD0S = TTS()
+        self.TTS = TTS(self.config.get('TTS.voice'))
         self.recorder = recorder
-        self.recorder.text(self.run)
+
+        while True:
+            if self.TTS.isTalking == False:
+                self.recorder.text(self.run)
+            else:
+                self.recorder.text(self.TTS.stop_Phrase)
             
 
 
@@ -40,7 +42,7 @@ class main():
             ai__response = LLM.call(self.messages, max_tokens=50)
             speech = ai__response[0]
             print(speech)
-            self.GLAD0S.readAloud(speech)
+            self.TTS.readAloud(speech)
             quit()
         
         ai_response = LLM.call(self.messages)
@@ -49,7 +51,7 @@ class main():
         
         speech = ai_response
         print(speech)
-        self.GLAD0S.readAloud(speech)
+        self.TTS.readAloud(speech)
 
 if __name__ == '__main__':
     config = Config_Manager()

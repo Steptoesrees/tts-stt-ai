@@ -2,15 +2,24 @@ from piper import PiperVoice, SynthesisConfig
 import sounddevice as sd
 import numpy as np
 from Config_Manager import Config_Manager
-from Convo_Manager import Convo_manager
 
 
 class TTS():
-    def __init__ (self):
+    def __init__ (self,voice):
         self.config = Config_Manager()
-        self.voice = PiperVoice.load("Models//glados_piper_medium.onnx")
+        self.voice = PiperVoice.load(voice)
         self.test_message = """Based on the error message, it seems like you're having trouble with the CUDA Execution Provider for ONNX Runtime, which is used by Piper. Here's how you can address the issue:"""
-        self.Cmanager = Convo_manager()
+
+
+        self.isTalking = False
+        self.isTalking = False
+        self.inConvo = False
+        self.stopPhrases = ["shut up", "wait", "listen to me"]
+
+    
+        self.stream = stream = sd.OutputStream(samplerate=self.voice.config.sample_rate, channels=1, dtype='int16', device=self.config.get('audio.output_device'))
+
+
 
         self.syn_config = SynthesisConfig(
             volume=self.config.get('audio.volume'),  
@@ -21,17 +30,36 @@ class TTS():
         )
 
     def readAloud(self, message):
-        stream = sd.OutputStream(samplerate=self.voice.config.sample_rate, channels=1, dtype='int16', device=self.config.get('audio.output_device'))
-        stream.start()
-        self.Cmanager.toggle_talking()
+        self.stream.start()
 
+        self.isTalking = True
+        
         for chunk in self.voice.synthesize(message):
-            int_data = np.frombuffer(chunk.audio_int16_bytes, dtype=np.int16)
-            stream.write(int_data)
+            if self.isTalking == True:
+                int_data = np.frombuffer(chunk.audio_int16_bytes, dtype=np.int16)
+                self.stream.write(int_data)
+            else:
+                self.stream.stop()
+                self.stream.close()
+                return
 
-        stream.stop()
-        self.Cmanager.toggle_talking()
-        stream.close()
+        self.stream.stop()
+        if self.isTalking == True:
+            self.toggle_talking()
+        self.stream.close()
+        return
+
+    def toggle_talking(self):
+        self.isTalking = not self.isTalking
+
+    def stop_Phrase(self, phrase):
+        for i in self.stopPhrases:
+            if i in phrase:
+                if self.isTalking == True:
+                    self.toggle_talking()
+                    self.stream.stop()
+                    self.stream.close()
+                return
         return
 
 

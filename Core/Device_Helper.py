@@ -28,7 +28,6 @@ class Device_Helper():
         
 
     def Update_Audio_Device_Config(self):
-        print(self.devices)
         print('='*60)
         print('downlaod voicemeeter Banana: https://vb-audio.com/Voicemeeter/banana.htm')
         print("Set VRCHAT mic to Voicemeeter B1")
