@@ -7,23 +7,14 @@ yea as if, this ai readme is a bit wrong there, this is EXTREMELY EARLY IN DEVEL
 
 This project creates an AI companion that can engage in natural conversations within VRChat environments. The system combines real-time speech processing with large language models to create an immersive, interactive experience.
 
-### Key Features
-
-- **Real-time Speech-to-Text**: Continuous audio transcription using RealtimeSTT
-- **High-Quality Text-to-Speech**: Natural voice synthesis with Piper TTS
-- **Intelligent Conversation**: Context-aware responses using LLMs via OpenRouter
-- **Memory Systems**: Both short-term conversation memory and long-term vector storage
-- **VRChat Integration**: Designed specifically for virtual reality social interactions
-- **Modular Architecture**: Clean separation of concerns with planned enhancements
-
 
 ### Core Components
 
-- **Main Application** ([`Core/Main.py`](Core/Main.py:1)): Orchestrates the conversation flow
-- **Speech Processing** ([`Core/Speech_To_Text.py`](Core/Speech_To_Text.py:1), [`Core/Text_To_Speech.py`](Core/Text_To_Speech.py:1)): Handles audio input/output
-- **Memory Management** ([`Core/Chat_Memory.py`](Core/Chat_Memory.py:1)): Short-term and long-term memory systems
-- **LLM Integration** ([`Core/callLLM.py`](Core/callLLM.py:1)): Communication with language models
-- **Configuration** ([`Core/Config_Manager.py`](Core/Config_Manager.py:1)): Centralized settings management
+- **Main Application** ([`Core/Main.py`](Core/Main.py:1)): Starts the bot and wires together speech, LLM, memory, and config. Early-stage orchestration; expect rough edges and breaking changes.
+- **Speech Pipeline** ([`Core/Speech_To_Text.py`](Core/Speech_To_Text.py:1), [`Core/Text_To_Speech.py`](Core/Text_To_Speech.py:1)): Handles real-time STT and TTS. Currently functional but experimental
+- **Conversation Logic** ([`Core/Convo_Manager.py`](Core/Convo_Manager.py:1), [`Core/Chat_Memory.py`](Core/Chat_Memory.py:1)): Manages dialogue flow and context across messages. Design is in very early stages.
+- **LLM Integration** ([`Core/callLLM.py`](Core/callLLM.py:1)): Thin wrapper for OpenRouter / model calls. Subject to change as prompt format, models, and routing get refined.
+- **Configuration & Devices** ([`Core/Config_Manager.py`](Core/Config_Manager.py:1), [`Core/Device_Helper.py`](Core/Device_Helper.py:1), [`Core/List_IO_indexes.py`](Core/List_IO_indexes.py:1)): Central config plus helper scripts for listing and selecting audio devices. Intended to make setup less painful, but still WIP and may require manual tweaking.
 
 ## 🛠️ Installation
 
@@ -56,11 +47,12 @@ This project creates an AI companion that can engage in natural conversations wi
    ```
 
 5. **Configure audio devices**
-   Run Device_Helper.py and follow the instructions
+   Run Audio_Setup.py and follow the instructions
 
    or
 
-   set up your own audio by editing [`Core/config/config.yaml`](Core/config/config.yaml:1) to set your audio input/output device indices:
+   set up your own audio by editing [`Core/config/config.yaml`](Core/config/config.yaml:1) to set your audio input/output device indexes:
+   (you can run [`Core/List_IO_indexes.py`](Core/List_IO_indexes.py:1) to find your audio device indexes)
    
 
 
@@ -89,6 +81,12 @@ audio:
   noise_scale: 0       # Voice variation
   noise_w_scale: 0     # Additional voice variation
   normalize_audio: false
+```
+
+Configure the tts voice in [`Core/config/config.yaml`](Core/config/config.yaml:1):
+```yaml
+TTS:
+  voice: Models//glados_piper_medium.onnx
 ```
 
 ### AI Personality
